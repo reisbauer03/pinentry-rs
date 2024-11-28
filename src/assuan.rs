@@ -180,8 +180,9 @@ impl Connection {
                 }
                 Response::Err { code, description } => {
                     line.zeroize();
-                    if let Some(mut buf) = data {
-                        buf.zeroize();
+                    if let Some(buf) = data {
+                        // zeroes the buffer
+                        drop(buf);
                     }
                     return Err(Error::from_parts(code, description));
                 }
